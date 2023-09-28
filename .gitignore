@@ -1,5 +1,6 @@
 env/
 data/
+outputs/
 *.ipynb*
 .idea/
 # Byte-compiled / optimized / DLL files
