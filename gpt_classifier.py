@@ -18,7 +18,7 @@ rand_idx = random.sample([i for i in range(dataset.shape[0])], int(len(dataset)*
 result = {"prompt": [], "label": [], "gpt_label": []}
 for idx in tqdm(rand_idx, desc="Labeling ..."):
     question = dataset[idx]["question"]
-    options = dataset[idx]["options"]
+    options = f'Options: {dataset[idx]["options"]}'
     answer = dataset[idx]["answer"]
 
     prompt = f"""You're a helpful task classification assistant.
@@ -52,7 +52,7 @@ You should answer the task type and not say anything after that.
 <Task>
 {question}
 
-Options: {options}
+{options}
 
 {answer}"""
 
@@ -71,8 +71,13 @@ Options: {options}
     result["gpt_label"].append(gpt4_response.choices[0]["message"]["content"])
     time.sleep(3)
 
+# Save as csv
 df = pd.DataFrame(result)
-df.to_csv("data/prompt_label.csv", index=False)
+df["question"] = df["prompt"].apply(lambda x: x.split("<Task>\n")[-1].split("Options:")[0].strip())
+df["options"] = df["prompt"].apply(lambda x: x.split("<Task>\n")[-1].split("Options:")[-1].split("\n")[0].strip())
+df["answer"] = df["prompt"].apply(lambda x: x.split("<Task>\n")[-1].split("Options:")[-1].split("\n")[-1].strip())
+# df.to_csv("/home/yehoon/workspace/promt_selection/data/result/prompt_test.csv", index=False)
 
-
-
+# # Push to hub
+# dataset = load_dataset("csv", data_files="/home/yehoon/workspace/promt_selection/data/result/prompt_test.csv")
+# dataset.push_to_hub("Yehoon/arc_hella_test")
