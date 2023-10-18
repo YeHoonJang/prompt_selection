@@ -12,20 +12,18 @@ from datasets import load_dataset
 load_dotenv("env/settings.env")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-dataset = load_dataset("Yehoon/arc_hella", split="train")
-rand_idx = random.sample([i for i in range(dataset.shape[0])], int(len(dataset)*0.01))
+def gpt_classifier()
 
-result = {"prompt": [], "label": [], "gpt_label": []}
-for idx in tqdm(rand_idx, desc="Labeling ..."):
-    question = dataset[idx]["question"]
-    options = f'Options: {dataset[idx]["options"]}'
-    answer = dataset[idx]["answer"]
 
-    prompt = f"""You're a helpful task classification assistant.
+question = dataset[idx]["question"]
+options = f'Options: {dataset[idx]["options"]}'
+answer = dataset[idx]["answer"]
+
+prompt = f"""You're a helpful task classification assistant.
 Identify the task type for the given <Task> below.
 You can only choose the correct answer from the list [qa, sc].
 
-<Task Description ans example>
+<Task Description and example>
 * qa: a task that answer the correct answer to a question.
 ```
 ### User
