@@ -11,6 +11,7 @@ def get_max_length(model):
         print(f"Using default max length: {max_length}")
     return max_length
 
+
 def preprocess_batch(batch, tokenizer, max_length):
     """
     Tokenizing a batch
@@ -20,3 +21,20 @@ def preprocess_batch(batch, tokenizer, max_length):
         max_length=max_length,
         truncation=True,
     )
+
+
+def print_trainable_parameters(model, use_4bit=False):
+    trainable_params = 0
+    all_param = 0
+    for _, param in model.named_parameters():
+        num_params = param.numel()
+        # if using DS Zero 3 and the weights are initialized empty
+        if num_params == 0 and hasattr(param, "ds_numel"):
+            num_params = param.ds_numel
+
+        all_param += num_params
+        if param.requires_grad:
+            trainable_params += num_params
+    if use_4bit:
+        trainable_params /= 2
+    print(f"all params: {all_param:,d} || trainable params: {trainable_params:,d} || trainable%: {100 * trainable_params / all_param}")
