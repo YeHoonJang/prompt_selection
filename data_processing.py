@@ -5,6 +5,7 @@ from functools import partial
 from transformers import AutoTokenizer
 
 from utils.utils import preprocess_batch
+from prompt_selection import prompt_select
 
 
 def data_combine():
@@ -38,6 +39,7 @@ def data_combine():
 
 # Pre-processing Dataset
 def create_prompt_formats(opt, sample):
+    # Prompt Style
     if opt.prompt_style == "upstage":
         INSTRUCTION_KEY = "### User"
         INPUT_KEY = "### System"
@@ -50,15 +52,8 @@ def create_prompt_formats(opt, sample):
         RESPONSE_KEY = "### Response:"
         END_KEY = "### End"
 
-    # Custom Prompt
-    if opt.custom_prompt == "none":
-        INTRO_BLURB = "Below is an instruction that describes a task. Write a response that appropriately completes the request."
-    else:
-        INTRO_BLURB = opt.intro_blurb
-
-    # Prompt format by dataset
+    # Prompt Format by Dataset
     if "dolly" in opt.dataset.lower():
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['instruction']}"
         input_context = f"{INPUT_KEY}\n{sample['context']}" if sample["context"] else None
         response = f"{RESPONSE_KEY}\n{sample['response']}"
@@ -72,7 +67,6 @@ def create_prompt_formats(opt, sample):
         options = format_options(sample["choices"], choice_prefixes)
         answer = choice_prefixes[sample["answer"]]
 
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions:\n{options}"
         input_context = f"{INPUT_KEY}\n{sample['hint']}" if sample["hint"] else None
         response = f"{RESPONSE_KEY}\n{answer}"
@@ -81,7 +75,6 @@ def create_prompt_formats(opt, sample):
     elif "ai2" in opt.dataset.lower():
         options = [f"{label}. {text}" for label, text in zip(sample["choices"]["label"], sample["choices"]["text"])]
 
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\nOptions: {str(options)}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['answerKey']}"
@@ -89,7 +82,6 @@ def create_prompt_formats(opt, sample):
     elif "hellaswag" in opt.dataset.lower():
         options = [f"{idx}. {text}" for idx, text in enumerate(sample["endings"])]
 
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['ctx']}\nOptions: {str(options)}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['label']}"
@@ -97,7 +89,6 @@ def create_prompt_formats(opt, sample):
     elif "mmlu" in opt.dataset.lower():
         options = [f"{idx}. {text}" for idx, text in enumerate(sample["choices"])]
 
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\nOptions: {str(options)}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['answer']}"
@@ -105,19 +96,38 @@ def create_prompt_formats(opt, sample):
     elif "truthful_qa" in opt.dataset.lower():
         options = [f"{idx}. {text}" for idx, text in enumerate(sample["mc1_targets"]["choices"])]
 
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\nOptions: {str(options)}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['mc1_targets']['labels'].index(1)}"
 
     elif "arc_hella" in opt.dataset.lower():
-        blurb = f"{INTRO_BLURB}"
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['answer']}"
 
+    elif "alpaca-cleaned" in opt.dataset.lower():
+        instruction = f"{INSTRUCTION_KEY}\n{sample['instruction']}"
+        input_context = "" if len(sample['input']) == 0 else f"{INPUT_KEY}\n{sample['input']}"
+        response = f"{RESPONSE_KEY}\n{sample['output']}"
+
     inference_response = f"{RESPONSE_KEY}\n"
     end = f"{END_KEY}"
+
+    # Prompt Selection
+    # Basic Prompt
+    if opt.custom_prompt == "none":
+        INTRO_BLURB = "Below is an instruction that describes a task. Write a response that appropriately completes the request."
+    # Selected Prompt
+    elif opt.select_prompt:
+        if opt.train:
+            INTRO_BLURB = prompt_select(opt, instruction, input_context, response)
+        elif opt.inference:
+            INTRO_BLURB = prompt_select(opt, instruction, input_context, inference_response)
+    # Customized Prompt
+    else:
+        INTRO_BLURB = opt.intro_blurb
+
+    blurb = f"{INTRO_BLURB}"
 
     if opt.train:
         parts = [part for part in [blurb, instruction, input_context, response, end] if part]
@@ -142,10 +152,13 @@ def preprocess_dataset(opt, tokenizer: AutoTokenizer, max_length: int, seed, dat
     _preprocessing_function = partial(preprocess_batch, max_length=max_length, tokenizer=tokenizer)
 
     if opt.train:
+        # Tokenize
         if "dolly" in opt.dataset.lower():
             if opt.llama_ft:
+                # Remain ['text', 'input_ids', 'attention_mask']
                 remove_columns = ["instruction", "context", "response", "category"]
             else:
+                # Remain ['input_ids', 'attention_mask']
                 remove_columns = ["instruction", "context", "response", "text", "category"]
             dataset = dataset.map(
                 _preprocessing_function,
@@ -154,13 +167,27 @@ def preprocess_dataset(opt, tokenizer: AutoTokenizer, max_length: int, seed, dat
             )
         elif "scienceqa" in opt.dataset.lower():
             if opt.llama_ft:
+                # Remain ['text', 'input_ids', 'attention_mask']
                 remove_columns = ['image', 'question', 'choices', 'answer', 'hint', 'task', 'grade', 'subject', 'topic', 'category', 'skill', 'lecture', 'solution']
             else:
+                # Remain ['input_ids', 'attention_mask']
                 remove_columns = ["text", 'image', 'question', 'choices', 'answer', 'hint', 'task', 'grade', 'subject', 'topic', 'category', 'skill', 'lecture', 'solution']
             dataset = dataset.map(
                 _preprocessing_function,
                 batched=True,
                 remove_columns=remove_columns
+            )
+        elif "alpaca-cleaned" in opt.dataset.lower():
+            if opt.llama_ft:
+                # Remain ['text', 'input_ids', 'attention_mask']
+                remove_columns = ["instruction", "input", "output"]
+            else:
+                # Remain ['input_ids', 'attention_mask']
+                remove_columns = ["instruction", "input", "output", "text"]
+            dataset = dataset.map(
+                _preprocessing_function,
+                batched=True,
+                remove_columns=remove_columns,
             )
 
         # Filter out samples that have input_ids exceeding max_length

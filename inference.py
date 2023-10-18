@@ -82,14 +82,15 @@ def main():
     parser.add_argument("--train", action='store_true')
 
     parser.add_argument("--inference", action='store_true')
+
     parser.add_argument("--inference_once", action='store_true')
     parser.add_argument("--prompt", type=str, help="Path of prompt here, if you want to do inferencing once")
 
-    parser.add_argument("--evaluate", action='store_true')
-
     parser.add_argument("--prompt_style", type=str, help="Prompt format style (e.g., dolly, alpaca, upstage ...)")
     parser.add_argument("--custom_prompt", type=str, default="none", help="Path of custom prompt (e.g., gpt_classify.txt)")
-    parser.add_argument("--intro_blurb", type=str, default="none", help="Path of custom prompt (e.g., gpt_classify.txt)")
+    parser.add_argument("--intro_blurb", type=str, default="none", help="Intro blurb of custom prompt (e.g., gpt_classify.txt)")
+
+    parser.add_argument("--select_prompt", action='store_true')
 
     parser.add_argument("--model", type=str, required=True, help="Model Name (e.g., 'meta/llama-2-7b')")
     parser.add_argument("--dataset", type=str, required=True,
@@ -162,6 +163,7 @@ def main():
         max_length = get_max_length(model)
     else:
         max_length = opt.max_length
+
     test_dataset = preprocess_dataset(opt, tokenizer, max_length, opt.seed, test_dataset)
     inference(opt, model, tokenizer, test_dataset)
 
