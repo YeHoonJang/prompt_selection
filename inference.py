@@ -91,6 +91,7 @@ def main():
     parser.add_argument("--intro_blurb", type=str, default="none", help="Intro blurb of custom prompt (e.g., gpt_classify.txt)")
 
     parser.add_argument("--select_prompt", action='store_true')
+    parser.add_argument("--use_label", action='store_true', help="Select Prompt by Label no GPT Classifier")
 
     parser.add_argument("--model", type=str, required=True, help="Model Name (e.g., 'meta/llama-2-7b')")
     parser.add_argument("--dataset", type=str, required=True,

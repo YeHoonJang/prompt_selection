@@ -5,7 +5,7 @@ from functools import partial
 from transformers import AutoTokenizer
 
 from utils.utils import preprocess_batch
-from prompt_selection import prompt_select
+from prompt_selection import select_prompt, select_prompt_using_label
 
 
 def data_combine():
@@ -104,6 +104,7 @@ def create_prompt_formats(opt, sample):
         instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
         input_context = ""
         response = f"{RESPONSE_KEY}\n{sample['answer']}"
+        label = f"{sample['label']}"
 
     elif "alpaca-cleaned" in opt.dataset.lower():
         instruction = f"{INSTRUCTION_KEY}\n{sample['instruction']}"
@@ -117,12 +118,20 @@ def create_prompt_formats(opt, sample):
     # Basic Prompt
     if opt.custom_prompt == "none":
         INTRO_BLURB = "Below is an instruction that describes a task. Write a response that appropriately completes the request."
+
     # Selected Prompt
     elif opt.select_prompt:
-        if opt.train:
-            INTRO_BLURB = prompt_select(opt, instruction, input_context, response)
-        elif opt.inference:
-            INTRO_BLURB = prompt_select(opt, instruction, input_context, inference_response)
+        if opt.use_label:
+            if opt.train:
+                INTRO_BLURB = select_prompt_using_label(opt, label)
+            elif opt.inference:
+                INTRO_BLURB = select_prompt_using_label(opt, label)
+        else:
+            if opt.train:
+                INTRO_BLURB = select_prompt(opt, instruction, input_context, response)
+            elif opt.inference:
+                INTRO_BLURB = select_prompt(opt, instruction, input_context, inference_response)
+
     # Customized Prompt
     else:
         INTRO_BLURB = opt.intro_blurb
