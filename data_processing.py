@@ -18,15 +18,15 @@ def data_combine():
             "options": [f"{label}. {text}" for label, text in zip(sample["choices"]["label"], sample["choices"]["text"])]
         }
     )
-    hellaswag = hellaswag.map(
-        lambda sample: {
-            **sample,
-            "options": [f"{idx}. {text}" for idx, text in enumerate(sample["endings"])]
-        }
-    )
+    # hellaswag = hellaswag.map(
+    #     lambda sample: {
+    #         **sample,
+    #         "options": [f"{idx}. {text}" for idx, text in enumerate(sample["endings"])]
+    #     }
+    # )
 
     arc_df = pd.DataFrame({"question": arc["question"], "options": arc["options"], "answer": arc["answerKey"], "label": "qa"})
-    hella_df = pd.DataFrame({"question": hellaswag["ctx"], "options": hellaswag["options"], "answer": hellaswag["label"], "label": "sc"})
+    hella_df = pd.DataFrame({"question": hellaswag["ctx"], "options": hellaswag["endings"], "answer": hellaswag["label"], "label": "sc"})
 
     df = pd.concat([arc_df, hella_df])
     df = df.sample(frac=1, random_state=42)
@@ -103,9 +103,7 @@ def create_prompt_formats(opt, sample):
     elif "arc_hella" in opt.dataset.lower():
         label = f"{sample['label']}"
         if label == "sc":
-            options = [text for text in sample["endings"]]
-
-            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['ctx']}\n\nOptions: {options}"
+            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['ctx']}\n\nOptions: {sample['options']}"
             input_context = ""
             response = f"{RESPONSE_KEY}\nAnswer: {sample['endings'][int(sample['label'])]}"
         elif label == "qa":
