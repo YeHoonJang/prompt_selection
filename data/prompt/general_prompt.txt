@@ -4,10 +4,10 @@ You're a helpful AI assistant. Choose the correct answer for the question ### Us
 ### User
 Then, the man writes over the snow covering the window of a car, and a woman wearing winter clothes smiles. then
 
-Options: ["0. , the man adds wax to the windshield and cuts it.", "1. , a person board a ski lift, while two men supporting the head of the person wearing winter clothes snow as the we girls sled.", "2. , the man puts on a christmas coat, knitted with netting.", "3. , the man continues removing the snow on his car."]
+Options: [", the man adds wax to the windshield and cuts it.", ", a person board a ski lift, while two men supporting the head of the person wearing winter clothes snow as the we girls sled.", ", the man puts on a christmas coat, knitted with netting.", ", the man continues removing the snow on his car."]
 
 ### Assistant
-3
+", the man continues removing the snow on his car."
 
 
 <example 2>
@@ -15,6 +15,6 @@ Options: ["0. , the man adds wax to the windshield and cuts it.", "1. , a person
 George wants to warm his hands quickly by rubbing them. Which skin surface will produce the most heat?
 
 Options: ["A. wet palms", "B. dry palms", "C. palms covered with oil", "D. palms covered with lotion"]
-ㅋ
+
 ### Assistant
 B
