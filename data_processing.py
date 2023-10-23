@@ -103,9 +103,9 @@ def create_prompt_formats(opt, sample):
     elif "arc_hella" in opt.dataset.lower():
         label = f"{sample['label']}"
         if label == "sc":
-            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['ctx']}\n\nOptions: {sample['options']}"
+            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['question']}\n\nOptions: {sample['options']}"
             input_context = ""
-            response = f"{RESPONSE_KEY}\nAnswer: {sample['endings'][int(sample['label'])]}"
+            response = f"{RESPONSE_KEY}\nAnswer: {sample['options'][int(sample['answer'])]}"
         elif label == "qa":
             instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
             input_context = ""
