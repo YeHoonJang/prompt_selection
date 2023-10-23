@@ -101,10 +101,18 @@ def create_prompt_formats(opt, sample):
         response = f"{RESPONSE_KEY}\n{sample['mc1_targets']['labels'].index(1)}"
 
     elif "arc_hella" in opt.dataset.lower():
-        instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
-        input_context = ""
-        response = f"{RESPONSE_KEY}\n{sample['answer']}"
         label = f"{sample['label']}"
+        if label == "sc":
+            options = [text for text in sample["endings"]]
+
+            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['ctx']}\n\nOptions: {options}"
+            input_context = ""
+            response = f"{RESPONSE_KEY}\nAnswer: {sample['endings'][int(sample['label'])]}"
+        elif label == "qa":
+            instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
+            input_context = ""
+            response = f"{RESPONSE_KEY}\n{sample['answer']}"
+            label = f"{sample['label']}"
 
     elif "alpaca-cleaned" in opt.dataset.lower():
         instruction = f"{INSTRUCTION_KEY}\n{sample['instruction']}"
