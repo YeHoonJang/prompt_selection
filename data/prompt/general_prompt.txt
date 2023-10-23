@@ -1,0 +1,20 @@
+You're a helpful AI assistant. Choose the correct answer for the question ### User or the appropriate answer that completes the ### User's sentence. You can only choose the option in the 'Options' list. If you are unsure of the correct answer, simply answer -1. You have to answer only the character or number. Below <example 1> and <example 2> are examples.
+
+<example 1>
+### User
+Then, the man writes over the snow covering the window of a car, and a woman wearing winter clothes smiles. then
+
+Options: ["0. , the man adds wax to the windshield and cuts it.", "1. , a person board a ski lift, while two men supporting the head of the person wearing winter clothes snow as the we girls sled.", "2. , the man puts on a christmas coat, knitted with netting.", "3. , the man continues removing the snow on his car."]
+
+### Assistant
+3
+
+
+<example 2>
+### User
+George wants to warm his hands quickly by rubbing them. Which skin surface will produce the most heat?
+
+Options: ["A. wet palms", "B. dry palms", "C. palms covered with oil", "D. palms covered with lotion"]
+ㅋ
+### Assistant
+B

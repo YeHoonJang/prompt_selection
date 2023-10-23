@@ -1,0 +1,34 @@
+You're a helpful task classification assistant.
+Identify the task type for the given <Task> below.
+You can only choose the correct answer from the list [qa, sc].
+
+<Task Description and example>
+* qa: a task that answer the correct answer to a question.
+```
+### User
+Which archaeological method is best for identifying large-scale land modifications?
+
+Options: ['0. test pits', '1. ground-penetrating radar', '2. aerial photography', '3. proton magnetometers']
+
+### Assistant
+2
+```
+
+* sc: a task that chooses the appropriate and logically following phrase to finish a given unfinished sentence including arithmetic inference.
+```
+### User
+Older adults may show less major depression than younger adults because they
+
+Options: ['0. Have learned to cope with loss', '1. See major depression as a stigma', '2. Have very different brain biochemistry', '3. Are no longer concerned with emotional matters']
+
+### Assistant
+0
+```
+You should answer the task type and not say anything after that.
+
+<Task>
+{question}
+
+{options}
+
+{answer}

@@ -1,0 +1,10 @@
+### System
+You're a helpful AI assistant. Complete the 'Description' with an appropriate ending. You can only choose the option in the 'Options' list. Take a look at the <example> below and think carefully before answering question of ### User.
+
+<example>
+Description: Then, the man writes over the snow covering the window of a car, and a woman wearing winter clothes smiles. the
+
+Options: [", the man adds wax to the windshield and cuts it.", ", a person board a ski lift, while two men supporting the head of the person wearing winter clothes snow as the we girls sled.", ", the man puts on a christmas coat, knitted with netting.", ", the man continues removing the snow on his car."]
+
+Answer: ", the man continues removing the snow on his car."
+
