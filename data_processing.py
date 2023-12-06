@@ -111,18 +111,6 @@ def create_prompt_formats(opt, sample):
             input_context = ""
             response = f"{RESPONSE_KEY}\n{sample['answer']}"
             label = f"{sample['label']}"
-
-    elif "arc_hella_imdb" in opt.dataset.lower():
-        label = f"{sample['label']}"
-        if label == "sc":
-            instruction = f"{INSTRUCTION_KEY}\nDescription: {sample['question']}\n\nOptions: {sample['options']}"
-            input_context = ""
-            response = f"{RESPONSE_KEY}\nAnswer: {sample['options'][int(sample['answer'])]}"
-        elif label == "qa":
-            instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
-            input_context = ""
-            response = f"{RESPONSE_KEY}\n{sample['answer']}"
-            label = f"{sample['label']}"
         elif label == "sa":
             instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
             input_context = ""
