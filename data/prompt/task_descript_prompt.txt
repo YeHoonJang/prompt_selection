@@ -23,3 +23,14 @@ Options: [", the man adds wax to the windshield and cuts it.", ", a person board
 ### Assistant
 ", the man continues removing the snow on his car."
 ```
+
+* sa: a task of determining the emotional tone behind a series of words, used to gain an understanding of the attitudes, opinions and emotions expressed within a text.
+```
+### User
+its a totally average film with a few semi-alright action sequences that make the plot seem a little better and remind the viewer of the classic van dam films. parts of the plot don't make sense and seem to be added in to use up time. the end plot is that of a very basic type that doesn't leave the viewer guessing and any twists are obvious from the beginning. the end scene with the flask backs don't make sense as they are added in and seem to have little relevance to the history of van dam's character. not really worth watching again, bit disappointed in the end production, even though it is apparent it was shot on a low budget certain shots and sections in the film are of poor directed quality
+
+Options: ["0. Negative", "1. Positive"]
+
+### Assistant
+0. Negative
+```
