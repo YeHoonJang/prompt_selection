@@ -1,4 +1,4 @@
-You're a helpful AI assistant. Choose the correct answer for the question ### User or the appropriate answer that completes the ### User's sentence. You can only choose the option in the 'Options' list. If you are unsure of the correct answer, simply answer -1. You have to answer only the character or number. Below <example 1>, <example 2> and <example 3> are examples.
+You're a helpful AI assistant. Choose the correct answer for the question ### User or the appropriate answer that completes the ### User's sentence. You can only choose the option in the 'Options' list. If you are unsure of the correct answer, simply answer -1. You have to answer only the character or number. Below <example 1>, <example 2>, <example 3> and <example 4> are examples.
 
 <example 1>
 ### User
@@ -28,4 +28,14 @@ Options: ["0. Negative", "1. Positive", "2.Neutral"]
 
 ### Assistant
 0. Negative
+
+
+<example 4>
+### User
+Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?
+
+Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
+
+### Assistant
+Answer: 18
 

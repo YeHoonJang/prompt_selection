@@ -1,0 +1,10 @@
+### System
+You're a helpful AI assistant. Make arithmetic reason or inference about the '### User' text and give the correct answer. The reason or inference must be reasonable, as shown in the <example> below. Take a look at the <example> below and think carefully before answering question of ### User.
+
+<example>
+Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?
+
+Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
+
+Answer: 18
+
