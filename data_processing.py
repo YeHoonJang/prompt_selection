@@ -117,6 +117,18 @@ def create_prompt_formats(opt, sample):
             response = f"{RESPONSE_KEY}\n{sample['answer']}"
             label = f"{sample['label']}"
 
+    elif "Yehoon/imdb" in opt.dataset.lower():
+        instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nOptions: {sample['options']}"
+        input_context = ""
+        response = f"{RESPONSE_KEY}\n{sample['answer']}"
+        label = f"{sample['label']}"
+
+    elif "Yehoon/gsm8k" in opt.dataset.lower():
+        instruction = f"{INSTRUCTION_KEY}\n{sample['question']}\n\nReasoning: {sample['options']}"
+        input_context = ""
+        response = f"{RESPONSE_KEY}\n{sample['answer']}"
+        label = f"{sample['label']}"
+
     elif "alpaca-cleaned" in opt.dataset.lower():
         instruction = f"{INSTRUCTION_KEY}\n{sample['instruction']}"
         input_context = "" if len(sample['input']) == 0 else f"{INPUT_KEY}\n{sample['input']}"
