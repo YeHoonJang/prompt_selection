@@ -40,16 +40,18 @@ def select_prompt(opt, instruction, input, response):
 
     """,
         "mr": """### System
-    You're a helpful AI assistant. Make arithmetic reason or inference about the '### User' text and give the correct answer. The reason or inference must be reasonable, as shown in the <example> below. Take a look at the <example> below and think carefully before answering question of ### User.
+You're a helpful AI assistant. Make arithmetic reason or inference about the '### User' text and give the correct answer. The reason or inference must be reasonable, as shown in the <example> below. Take a look at the <example> below and think carefully before answering question of ### User.
 
-    <example>
-    Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?
+<example>
+### User
+Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?
 
-    Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
+Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
 
-    Answer: 18
+### Assistant
+Answer: 18
 
-    """,
+""",
         "general": """You're a helpful AI assistant. Choose the correct answer for the question ### User or the appropriate answer that completes the ### User's sentence. You can only choose the option in the 'Options' list. If you are unsure of the correct answer, simply answer -1. You have to answer only the character or number. Below <example 1>, <example 2>, <example 3> and <example 4> are examples.
 
     <example 1>
@@ -148,10 +150,12 @@ Answer: 0. Negative
 You're a helpful AI assistant. Make arithmetic reason or inference about the '### User' text and give the correct answer. The reason or inference must be reasonable, as shown in the <example> below. Take a look at the <example> below and think carefully before answering question of ### User.
 
 <example>
+### User
 Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?
 
 Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
 
+### Assistant
 Answer: 18
 
 """,
