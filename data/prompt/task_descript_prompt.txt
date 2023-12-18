@@ -43,5 +43,5 @@ Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning 
 Reasoning: Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 duck eggs a day. She makes 9 * 2 = $<<9*2=18>>18 every day at the farmer’s market.
 
 ### Assistant
-18
+Answer: 18
 ```
